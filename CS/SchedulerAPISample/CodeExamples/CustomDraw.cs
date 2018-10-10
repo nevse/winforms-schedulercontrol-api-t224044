@@ -47,7 +47,7 @@ namespace SchedulerAPISample.CodeExamples
                 // Draw the appointment caption text.
                 e.Cache.DrawString(viewInfo.DisplayText.Trim(), viewInfo.Appearance.Font,
                     viewInfo.Appearance.GetForeBrush(e.Cache), mainContentBounds, StringFormat.GenericDefault);
-                SizeF subjSize = e.Graphics.MeasureString(viewInfo.DisplayText.Trim(), viewInfo.Appearance.Font, mainContentBounds.Width);
+                SizeF subjSize = e.Cache.Graphics.MeasureString(viewInfo.DisplayText.Trim(), viewInfo.Appearance.Font, mainContentBounds.Width);
                 int lineYposition = (int)subjSize.Height;
 
                 Rectangle descriptionLocation = new Rectangle(mainContentBounds.X, mainContentBounds.Y + lineYposition,
@@ -184,7 +184,7 @@ namespace SchedulerAPISample.CodeExamples
             AllDayAreaCell cell = (AllDayAreaCell)e.ObjectInfo;
             Resource resource = cell.Resource;
             TimeInterval interval = cell.Interval;
-            AppointmentBaseCollection apts = ((SchedulerControl)sender).Storage.GetAppointments(interval);
+            AppointmentBaseCollection apts = ((SchedulerControl)sender).DataStorage.GetAppointments(interval);
             // Specify what precentage of the appointment duration should be painted.
             float percent = CalcCurrentWorkTimeLoad(apts, interval, resource);
             Brush brush;
@@ -280,14 +280,14 @@ namespace SchedulerAPISample.CodeExamples
         {
             NavigationButtonNext navButton = e.ObjectInfo as NavigationButtonNext;
             SchedulerControl scheduler = sender as SchedulerControl;
-            SchedulerStorage storage = scheduler.Storage as SchedulerStorage;
+            SchedulerDataStorage storage = scheduler.DataStorage as SchedulerDataStorage;
             // Do not count by resources.
             if (scheduler.GroupType != SchedulerGroupType.None) return;
 
             if (navButton != null && scheduler != null && storage != null)
             {
                 // Count appointments within the interval used by the Next navigation button.
-                AppointmentBaseCollection apts = scheduler.Storage.Appointments.Items;
+                AppointmentBaseCollection apts = scheduler.DataStorage.Appointments.Items;
                 TimeSpan aptSearchInterval = scheduler.OptionsView.NavigationButtons.AppointmentSearchInterval;
                 DateTime lastVisibleTime = scheduler.ActiveView.GetVisibleIntervals().Last().End;
                 int aptCount = apts.Where(a => (a.Start > lastVisibleTime) && (a.Start < lastVisibleTime.Add(aptSearchInterval))).Count();
@@ -300,7 +300,7 @@ namespace SchedulerAPISample.CodeExamples
         {
             #region #CustomDrawResourceHeaderEvent
             // Add information to resources.
-            IResourceStorageBase resStorage = scheduler.Storage.Resources;
+            IResourceStorageBase resStorage = scheduler.DataStorage.Resources;
             resStorage.CustomFieldMappings.Add(new ResourceCustomFieldMapping("PostCode", "mPostCode"));
             resStorage.CustomFieldMappings.Add(new ResourceCustomFieldMapping("Address", "mAddress"));
             resStorage[0].CustomFields["PostCode"] = "16285 Schwedt";

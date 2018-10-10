@@ -33,7 +33,7 @@
             DevExpress.XtraScheduler.TimeRuler timeRuler2 = new DevExpress.XtraScheduler.TimeRuler();
             DevExpress.XtraScheduler.TimeRuler timeRuler3 = new DevExpress.XtraScheduler.TimeRuler();
             this.schedulerControl1 = new DevExpress.XtraScheduler.SchedulerControl();
-            this.schedulerStorage1 = new DevExpress.XtraScheduler.SchedulerStorage(this.components);
+            this.schedulerStorage1 = new DevExpress.XtraScheduler.SchedulerDataStorage(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.schedulerControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.schedulerStorage1)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +70,7 @@
         #endregion
 
         private DevExpress.XtraScheduler.SchedulerControl schedulerControl1;
-        private DevExpress.XtraScheduler.SchedulerStorage schedulerStorage1;
+        private DevExpress.XtraScheduler.SchedulerDataStorage schedulerStorage1;
 
     }
 }
